@@ -1,10 +1,26 @@
-import { Outlet } from '@remix-run/react'
+import { LoaderFunctionArgs, json, redirect } from '@remix-run/node';
+import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react'
+import { ContextType } from '~/global';
+import DashboardHeader from './DashboardHeader';
+import SideNav from './SideNav';
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    return null;
+};
 export default function () {
+    const data = useLoaderData<typeof loader>()
     return (
-        <>
-            <div>Dashboard Layout</div>
-            <Outlet />
-        </>
+        <div className="flex">
+            <div className="hidden md:block">
+                <SideNav data={data} />
+            </div>
+            <main className="w-full">
+                <DashboardHeader data={data} />
+                <Outlet context={{ data } satisfies ContextType} />
+            </main>
+        </div>
     )
+}
+export function useProfile() {
+    return useOutletContext<ContextType>();
 }

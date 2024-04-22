@@ -1,9 +1,10 @@
-import logo from "../assets/logo.svg"
+import logo from '../../assets/logo.svg'
 import { LuLayoutGrid, LuPiggyBank, LuReceipt, LuShieldCheck } from "react-icons/lu";
-import { MenuItem } from "../global";
-import { AuthButton } from "./AuthButton";
 import { NavLink } from '@remix-run/react'
-export const SideNav = () => {
+import { MenuItem, SideNavProps } from "~/global";
+import { AuthButton } from "~/components";
+
+export default function SideNav({ data }: SideNavProps) {
     const menuList: MenuItem[] = [
         {
             id: 1,
@@ -46,7 +47,7 @@ export const SideNav = () => {
                 </div>
             </div>
             <div className="mb-5 w-full flex justify-center">
-                <AuthButton />
+                <AuthButton data={data} />
             </div>
         </aside>
     )

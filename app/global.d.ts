@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons'
+import { GoogleProfile } from 'remix-auth-google'
 export type ProfileResponse = {
 
     "id": string,
@@ -20,4 +21,14 @@ export type MenuItem = {
     path: string
 }
 
-export type ContextType = { profile: ProfileResponse | null };
+export type ContextType = { data: JsonifyObject<GoogleProfile> | null };
+
+export interface DashboardHeaderProps {
+    data: JsonifyObject<GoogleProfile> | null
+}
+export interface AuthButtonProps {
+    data: JsonifyObject<GoogleProfile> | null
+}
+export interface SideNavProps {
+    data: JsonifyObject<GoogleProfile> | null
+}
