@@ -3,9 +3,12 @@ import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react'
 import { ContextType } from '~/global';
 import DashboardHeader from './DashboardHeader';
 import SideNav from './SideNav';
+import authenticator from '~/services/auth.server';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    return null;
+
+    const profile = await authenticator.isAuthenticated(request)
+    return profile;
 };
 export default function () {
     const data = useLoaderData<typeof loader>()

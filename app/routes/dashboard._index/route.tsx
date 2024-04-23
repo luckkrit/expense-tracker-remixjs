@@ -13,10 +13,9 @@ export default function () {
 }
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const profile = await authenticator.isAuthenticated(request)
-    if (profile === null) return redirect('/')
 
-    if (profile === null) return redirect('/')
     let budgets: Budgets[] = []
+    if (profile === null) return redirect('/')
     if (profile?.emails) {
         budgets = await BudgetRepository.findBudget({ createdBy: profile.emails[0].value })
         console.log(budgets.length)
