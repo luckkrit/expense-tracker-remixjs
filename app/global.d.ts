@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons'
 import { GoogleProfile } from 'remix-auth-google'
+import { Budgets } from './database/types'
 export type ProfileResponse = {
 
     "id": string,
@@ -31,4 +32,11 @@ export interface AuthButtonProps {
 }
 export interface SideNavProps {
     data: JsonifyObject<GoogleProfile> | null
+}
+
+export interface BudgetListProps {
+    budgets: JsonifyObject<Budgets[]>
+}
+export interface BudgetItemProps {
+    budget: Budgets
 }

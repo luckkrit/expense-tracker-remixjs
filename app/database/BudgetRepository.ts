@@ -1,5 +1,6 @@
 import { db } from './'
 import { BudgetsUpdate, Budgets, NewBudgets } from './types'
+import { sql } from 'kysely'
 
 export async function findBudgetById(id: number) {
     return await db.selectFrom('budgets')
@@ -26,6 +27,10 @@ export async function findBudget(criteria: Partial<Budgets>) {
     }
 
     return await query.selectAll().execute()
+}
+
+export async function findBudgetByCreatedBy(criteria: Partial<Budgets>) {
+    return await sql<Budgets>`SELECT b.*, (select ifnull(sum(amount),0) from expenses e where e.budgetsId = b.id) as totalSpend, (select count(id) from expenses e where e.budgetsId = b.id) as totalItem FROM budgets b where b."createdBy" = ${criteria.createdBy} order by b.id desc`.execute(db)
 }
 
 export async function updateBudget(id: number, updateWith: BudgetsUpdate) {

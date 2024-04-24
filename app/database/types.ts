@@ -5,6 +5,8 @@ export interface BudgetsTable {
     name: string
     amount: string
     icon: string
+    totalSpend?: string
+    totalItem?: string
     createdBy: string
 }
 export type Budgets = Selectable<BudgetsTable>

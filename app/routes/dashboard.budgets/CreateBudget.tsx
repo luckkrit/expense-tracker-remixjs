@@ -18,7 +18,7 @@ import { useToast } from "~/components/ui/use-toast";
 export const CreateBudget = () => {
     const [text, setText] = useState("");
     const [name, setName] = useState("")
-    const [icon, setIcon] = useState("");
+    const [icon, setIcon] = useState("❌");
     const [amount, setAmount] = useState("0")
     const [error, setError] = useState("")
     const fetcher = useFetcher();
@@ -29,6 +29,10 @@ export const CreateBudget = () => {
         if (fetcher.data !== undefined) {
             const data: any = fetcher.data
             if (data['error'] === null) {
+                setIcon(() => "❌")
+                setAmount(() => "0")
+                setError(() => "")
+                setName(() => "")
                 toast({
                     title: "Create Budget",
                     description: "Success",
@@ -40,12 +44,14 @@ export const CreateBudget = () => {
                 }, 3000)
             } else {
                 setError(() => data['error'])
+                toast({
+                    title: "Create Budget",
+                    description: data['error'],
+                    variant: 'destructive'
+                })
             }
         }
     }, [fetcher.data])
-    function handleOnEnter(text: string) {
-        console.log("enter", text);
-    }
     return (
         <div>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -88,7 +94,7 @@ export const CreateBudget = () => {
                                         setText(() => budgetName)
                                         setName(() => n)
                                         console.log(allIcons)
-                                    }} shouldReturn={false} cleanOnEnter={true} shouldConvertEmojiToImage={false} onEnter={handleOnEnter} />
+                                    }} shouldReturn={false} cleanOnEnter={true} shouldConvertEmojiToImage={false} />
                                     <input type="hidden" name="name" value={name} />
                                 </div>
                                 <div className="mt-2">
