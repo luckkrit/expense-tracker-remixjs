@@ -15,6 +15,9 @@ export async function findExpense(criteria: Partial<Expenses>) {
     if (criteria.id) {
         query = query.where('id', '=', criteria.id) // Kysely is immutable, you must re-assign!
     }
+    if (criteria.budgetsId) {
+        query = query.where('budgetsId', '=', criteria.budgetsId) // Kysely is immutable, you must re-assign!
+    }
 
     if (criteria.name) {
         query = query.where('name', '=', criteria.name)
@@ -25,7 +28,7 @@ export async function findExpense(criteria: Partial<Expenses>) {
     if (criteria.createdBy) {
         query = query.where('createdBy', '=', criteria.createdBy)
     }
-
+    query = query.orderBy('id desc')
     return await query.selectAll().execute()
 }
 
@@ -44,6 +47,12 @@ export async function createExpense(expense: NewExpenses) {
 
 export async function deleteExpense(id: number) {
     return await db.deleteFrom('expenses').where('id', '=', id)
+        .returningAll()
+        .executeTakeFirst()
+}
+
+export async function deleteExpenseByBudget(id: number) {
+    return await db.deleteFrom('expenses').where('budgetsId', '=', id)
         .returningAll()
         .executeTakeFirst()
 }

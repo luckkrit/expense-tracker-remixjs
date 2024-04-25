@@ -19,6 +19,7 @@ export interface ExpensesTable {
     amount: string
     budgetsId: number
     createdBy: string
+    created_at?: string
 }
 export type Expenses = Selectable<ExpensesTable>
 export type NewExpenses = Insertable<ExpensesTable>

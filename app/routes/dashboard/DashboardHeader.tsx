@@ -7,7 +7,7 @@ export default function ({ data }: DashboardHeaderProps) {
         <>
             <div className="p-5 shadow-sm border-b flex justify-between items-center">
                 <div>
-                    SearchBar
+                    {/* SearchBar */}
                 </div>
                 <AuthButton data={data} />
             </div>

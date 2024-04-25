@@ -1,14 +1,7 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import React from 'react'
+import { Outlet } from '@remix-run/react'
 
 export default function () {
     return (
-        <div>
-            Expenses
-        </div>
-    );
+        <Outlet />
+    )
 }
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-    return null;
-};

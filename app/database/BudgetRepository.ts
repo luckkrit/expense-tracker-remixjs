@@ -29,8 +29,14 @@ export async function findBudget(criteria: Partial<Budgets>) {
     return await query.selectAll().execute()
 }
 
-export async function findBudgetByCreatedBy(criteria: Partial<Budgets>) {
-    return await sql<Budgets>`SELECT b.*, (select ifnull(sum(amount),0) from expenses e where e.budgetsId = b.id) as totalSpend, (select count(id) from expenses e where e.budgetsId = b.id) as totalItem FROM budgets b where b."createdBy" = ${criteria.createdBy} order by b.id desc`.execute(db)
+export async function findBudgetByCreatedBy(criteria: Partial<Pick<Budgets, "createdBy" | "id">>) {
+    if (criteria.createdBy !== undefined && criteria.id !== undefined) {
+        return await sql<Budgets>`SELECT b.*, (select ifnull(sum(amount),0) from expenses e where e.budgetsId = b.id) as totalSpend, (select count(id) from expenses e where e.budgetsId = b.id) as totalItem FROM budgets b where b."createdBy" = ${criteria.createdBy} and b.id = ${criteria.id} order by b.id desc`.execute(db)
+    } else if (criteria.createdBy !== undefined) {
+        return await sql<Budgets>`SELECT b.*, (select ifnull(sum(amount),0) from expenses e where e.budgetsId = b.id) as totalSpend, (select count(id) from expenses e where e.budgetsId = b.id) as totalItem FROM budgets b where b."createdBy" = ${criteria.createdBy} order by b.id desc`.execute(db)
+    } else {
+        return await sql<Budgets>`SELECT b.*, (select ifnull(sum(amount),0) from expenses e where e.budgetsId = b.id) as totalSpend, (select count(id) from expenses e where e.budgetsId = b.id) as totalItem FROM budgets b where b.id = ${criteria.id} order by b.id desc`.execute(db)
+    }
 }
 
 export async function updateBudget(id: number, updateWith: BudgetsUpdate) {

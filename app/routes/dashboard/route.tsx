@@ -4,7 +4,6 @@ import { ContextType } from '~/global';
 import DashboardHeader from './DashboardHeader';
 import SideNav from './SideNav';
 import authenticator from '~/services/auth.server';
-import { Toaster } from '~/components/ui/toaster';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 
@@ -22,7 +21,6 @@ export default function () {
                 <DashboardHeader data={data} />
                 <Outlet context={{ data } satisfies ContextType} />
 
-                <Toaster />
             </main>
         </div>
     )

@@ -29,7 +29,7 @@ describe('BudgetRepository', () => {
     //     expect((await BudgetRepository.findBudget({})).length).toBe(0)
     // })
     test('select by createdBy', async () => {
-        const result = await BudgetRepository.findBudgetByCreatedBy({ createdBy: 'luckkrit@gmail.com' })
+        const result = await BudgetRepository.findBudgetByCreatedBy({ createdBy: 'luckkrit@gmail.com', id: 1 })
         expect(result.rows.length).toBe(1)
         expect(result.rows[0].totalSpend).toBe(30)
     })

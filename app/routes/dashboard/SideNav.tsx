@@ -10,25 +10,29 @@ export default function SideNav({ data }: SideNavProps) {
             id: 1,
             name: 'Dashboard',
             icon: LuLayoutGrid,
-            path: '/dashboard'
+            path: '/dashboard',
+            end: true
         },
         {
             id: 2,
             name: 'Budgets',
             icon: LuPiggyBank,
-            path: '/dashboard/budgets'
+            path: '/dashboard/budgets',
+            end: true
         },
         {
             id: 3,
             name: 'Expenses',
             icon: LuReceipt,
-            path: '/dashboard/expenses'
+            path: '/dashboard/expenses',
+            end: false
         },
         {
             id: 4,
             name: 'Upgrade',
             icon: LuShieldCheck,
-            path: '/dashboard/upgrade'
+            path: '/dashboard/upgrade',
+            end: true
         }
     ]
     return (
@@ -37,7 +41,7 @@ export default function SideNav({ data }: SideNavProps) {
                 <img src={logo} width={71} height={55} alt="logo" className="mx-auto" />
                 <div className="mt-5">
                     {menuList.map((menu, i) => (
-                        <NavLink to={menu.path} end key={i} className={({ isActive }) =>
+                        <NavLink to={menu.path} end={menu.end} key={i} className={({ isActive }) =>
                             'flex items-center gap-2 font-medium p-5 cursor-pointer border border-transparent hover:border hover:rounded-md hover:text-blue-700 hover:bg-blue-100 ' + (isActive ? 'border rounded-md text-blue-700 bg-blue-100' : 'text-gray-500 ')
                         }>
                             <menu.icon />

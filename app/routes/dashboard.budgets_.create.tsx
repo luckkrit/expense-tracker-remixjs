@@ -4,9 +4,9 @@ import authenticator from "~/services/auth.server";
 
 export const action = async ({ request, }: ActionFunctionArgs) => {
     const profile = await authenticator.isAuthenticated(request)
+    const formData = await request.formData();
     if (profile !== null) {
 
-        const formData = await request.formData();
         const amount = String(formData.get("amount"));
         const name = String(formData.get('name'))
         const icon = String(formData.get('icon'))

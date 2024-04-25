@@ -14,6 +14,7 @@ import emojiRegex from 'emoji-regex';
 import { Button } from "~/components/ui/button";
 import { useFetcher, useNavigate } from "@remix-run/react";
 import { useToast } from "~/components/ui/use-toast";
+import { Loader } from "lucide-react";
 
 export const CreateBudget = () => {
     const [text, setText] = useState("");
@@ -26,22 +27,20 @@ export const CreateBudget = () => {
     const { toast } = useToast()
     const [open, setOpen] = useState(false);
     useEffect(() => {
-        if (fetcher.data !== undefined) {
+        console.log(fetcher.data, fetcher.state)
+        if (fetcher.data !== undefined && fetcher.state === 'loading') {
             const data: any = fetcher.data
             if (data['error'] === null) {
+                setOpen(() => false)
                 setIcon(() => "❌")
                 setAmount(() => "0")
                 setError(() => "")
                 setName(() => "")
+                setText(() => "")
                 toast({
                     title: "Create Budget",
                     description: "Success",
                 })
-                setOpen(() => false)
-                setTimeout(() => {
-
-                    navigate('/dashboard/budgets')
-                }, 3000)
             } else {
                 setError(() => data['error'])
                 toast({
@@ -51,7 +50,7 @@ export const CreateBudget = () => {
                 })
             }
         }
-    }, [fetcher.data])
+    }, [fetcher.data, fetcher.state])
     return (
         <div>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -93,15 +92,28 @@ export const CreateBudget = () => {
                                         setIcon(() => allIcons)
                                         setText(() => budgetName)
                                         setName(() => n)
-                                        console.log(allIcons)
                                     }} shouldReturn={false} cleanOnEnter={true} shouldConvertEmojiToImage={false} />
-                                    <input type="hidden" name="name" value={name} />
+                                    <input type="hidden" name="name" value={name} placeholder="e.g. Home Decor" />
                                 </div>
                                 <div className="mt-2">
                                     <h2 className="text-black font-medium my-1">Budget Amount</h2>
-                                    <input name="amount" className="border rounded-full p-3 my-1 mx-2 outline-none w-full" type="number" value={amount} onChange={(e) => setAmount(() => e.target.value)} />
+                                    <input name="amount" className="border rounded-full p-3 my-1 mx-2 outline-none w-full" type="number" value={amount}
+                                        onClick={(e) => {
+                                            const target: EventTarget = e.target
+                                            if (target instanceof HTMLInputElement) {
+                                                const input: HTMLInputElement = target as HTMLInputElement
+                                                input.select()
+                                            }
+                                        }}
+                                        onChange={(e) => setAmount(() => e.target.value)} placeholder="e.g. $5000" />
                                 </div>
-                                <Button disabled={text.length === 0 || parseInt(amount) === 0} className="mt-5 w-full bg-blue-700 text-white">Create Budget</Button>
+                                <Button disabled={text.length === 0 || parseInt(amount) === 0 || fetcher.state !== 'idle'} className="mt-5 w-full bg-blue-700 text-white">
+                                    {fetcher.state === 'loading' ?
+                                        <Loader className="animate-spin" />
+                                        :
+                                        "Create Budget"
+                                    }
+                                </Button>
                             </fetcher.Form>
                         </DialogDescription>
                     </DialogHeader>
