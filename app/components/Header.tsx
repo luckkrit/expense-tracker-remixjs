@@ -8,7 +8,7 @@ export const Header = ({ hideLogo = false }: HeaderProps) => {
             {hideLogo ? null :
                 <>
                     <img src={logo} width={71} height={55} alt="logo" />
-                    <AuthButton />
+                    <AuthButton data={null} />
                 </>
             }
         </nav>
