@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from '@remix-run/react'
+import { Hero } from "~/components";
 import authenticator from '~/services/auth.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -12,6 +13,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function () {
     return (
-        <div>Landing Index</div>
+        <Hero />
     )
 }
